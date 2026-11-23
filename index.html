@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ДЭ 09.02.07 - Платформа для сдачи экзамена</title>
+    <style>
+        /* ================= ОБЩИЕ СТИЛИ ================= */
+        :root {
+            --bg: #0f172a;
+            --sidebar-bg: #1e293b;
+            --text: #e2e8f0;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --code-bg: #0b1120;
+            --border: #334155;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { display: flex; height: 100vh; background: var(--bg); color: var(--text); overflow: hidden; }
+
+        /* ================= БОКОВОЕ МЕНЮ ================= */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        .sidebar h2 { padding: 20px; text-align: center; border-bottom: 1px solid var(--border); font-size: 18px; color: var(--accent); }
+        .nav-btn {
+            background: none; border: none; color: var(--text); padding: 15px 20px;
+            text-align: left; cursor: pointer; font-size: 16px; border-bottom: 1px solid #2a3548;
+            transition: 0.2s;
+        }
+        .nav-btn:hover, .nav-btn.active { background: var(--border); color: var(--accent); border-left: 4px solid var(--accent); }
+
+        /* ================= КОНТЕНТ ================= */
+        .content {
+            flex: 1; padding: 40px; overflow-y: auto; position: relative;
+        }
+        .section { display: none; max-width: 900px; margin: 0 auto; animation: fadeIn 0.3s; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        h1 { color: var(--accent); margin-bottom: 20px; font-size: 32px; }
+        h2 { margin: 20px 0 10px; color: #94a3b8; }
+        h3 { margin: 15px 0 10px; color: #cbd5e1; }
+        p, li { line-height: 1.6; margin-bottom: 10px; font-size: 16px; }
+        ul, ol { margin-left: 20px; margin-bottom: 15px; }
+        
+        /* Блоки с кодом */
+        pre {
+            background: var(--code-bg); padding: 15px; border-radius: 8px;
+            border: 1px solid var(--border); overflow-x: auto; margin-bottom: 15px;
+            font-family: 'Consolas', monospace; font-size: 14px; color: #e2e8f0;
+            position: relative;
+        }
+        code { font-family: 'Consolas', monospace; }
+        
+        /* Кнопка копирования */
+        .copy-btn {
+            position: absolute; top: 10px; right: 10px; background: var(--sidebar-bg);
+            color: var(--accent); border: 1px solid var(--border); padding: 5px 10px;
+            border-radius: 4px; cursor: pointer; font-size: 12px;
+        }
+        .copy-btn:hover { background: var(--accent); color: #000; }
+
+        /* Компилятор */
+        .compiler-container { width: 100%; height: 600px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* ================= ЧАТ-ПОМОЩНИК ================= */
+        .chat-toggle {
+            position: fixed; bottom: 30px; right: 30px; background: var(--accent);
+            color: #000; border: none; border-radius: 50%; width: 60px; height: 60px;
+            font-size: 24px; cursor: pointer; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+            z-index: 1000; transition: 0.2s;
+        }
+        .chat-toggle:hover { transform: scale(1.1); }
+
+        .chat-window {
+            position: fixed; bottom: 100px; right: 30px; width: 350px; height: 500px;
+            background: var(--sidebar-bg); border: 1px solid var(--border); border-radius: 12px;
+            display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 1000; display: none; overflow: hidden;
+        }
+        .chat-header { background: var(--code-bg); padding: 15px; text-align: center; border-bottom: 1px solid var(--border); font-weight: bold; color: var(--accent); }
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 80%; padding: 10px 14px; border-radius: 8px; font-size: 14px; line-height: 1.4; }
+        .msg.bot { background: var(--border); color: var(--text); align-self: flex-start; border-bottom-left-radius: 0; }
+        .msg.user { background: var(--accent); color: #000; align-self: flex-end; border-bottom-right-radius: 0; }
+        .chat-input-area { display: flex; padding: 10px; border-top: 1px solid var(--border); }
+        .chat-input-area input { flex: 1; padding: 10px; background: var(--bg); border: 1px solid var(--border); color: white; border-radius: 4px 0 0 4px; outline: none; }
+        .chat-input-area button { padding: 10px 15px; background: var(--accent); color: #000; border: none; font-weight: bold; border-radius: 0 4px 4px 0; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- БОКОВОЕ МЕНЮ -->
+    <nav class="sidebar">
+        <h2>Экзамен ДЭ</h2>
+        <button class="nav-btn active" onclick="showSection('intro')"> Введение и План</button>
+        <button class="nav-btn" onclick="showSection('module1')"> Модуль 1: База данных</button>
+        <button class="nav-btn" onclick="showSection('module2')"> Модуль 2: WPF и Список</button>
+        <button class="nav-btn" onclick="showSection('module3')"> Модуль 3: Кнопки (CRUD)</button>
+        <button class="nav-btn" onclick="showSection('module4')"> Модуль 4: Роли</button>
+        <button class="nav-btn" onclick="showSection('compiler')"> Тренажер кода C#</button>
+        <button class="nav-btn" onclick="showSection('resources')"> Курсы и Примеры</button>
+    </nav>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <main class="content">
+        
+        <!-- ВВЕДЕНИЕ -->
+        <section id="intro" class="section active">
+            <h1>План сдачи ДЭ за 4 часа</h1>
+            <p>Привет, студент! Этот сайт создан, чтобы ты сдал экзамен, даже если никогда раньше не писал код. Просто иди по шагам в левом меню.</p>
+            
+            <h2>⏱️ Тайминг (Что успеваем сделать):</h2>
+            <ul>
+                <li><strong>0:00 - 0:40</strong> — Модуль 1 (Создание БД через импорт).</li>
+                <li><strong>0:40 - 2:00</strong> — Модуль 2 (Создание проекта, вывод списка товаров).</li>
+                <li><strong>2:00 - 3:00</strong> — Модуль 3 (Кнопки добавления и удаления).</li>
+                <li><strong>3:00 - 3:30</strong> — Модуль 4 (Скрытие кнопок в зависимости от роли).</li>
+                <li><strong>3:30 - 4:00</strong> — Проверка и сохранение результатов.</li>
+            </ul>
+
+            <h2>🚑 Главное правило:</h2>
+            <p>Если программа вылетает, обязательно вставь перехватчик ошибок в <code>App.xaml.cs</code> (он есть в каждом модуле), иначе ты не поймешь, что сломалось.</p>
+        </section>
+
+        <!-- МОДУЛЬ 1 -->
+        <section id="module1" class="section">
+            <h1>Модуль 1: База данных</h1>
+            <p><em>Задача: Импортировать Excel-таблицы в SQLite без написания SQL-кода.</em></p>
+
+            <h2>Шаг 1: Подготовка CSV</h2>
+            <p>DB Browser не открывает <code>.xlsx</code>. Открой каждый файл в Excel и сделай <strong>Файл -> Сохранить как -> CSV UTF-8 (разделитель запятая)</strong>.</p>
+
+            <h2>Шаг 2: Импорт в DB Browser</h2>
+            <ol>
+                <li>Открой DB Browser, создай новый файл <code>database.db</code>.</li>
+                <li>Нажми <strong>Файл -> Импорт -> Таблица из CSV-файла</strong>.</li>
+                <li>Выбери свой CSV. Задай имя таблицы (например, <code>products</code>).</li>
+                <li>Кодировка: <strong>UTF-8</strong>. Поставь галочку «Первая строка содержит имена столбцов».</li>
+                <li><strong>ВНИМАНИЕ НА ТИПЫ:</strong> Найди колонку с ценой (Price) и смени тип с TEXT на <strong>REAL</strong>. Колонки с ID и количеством (Quantity) — на <strong>INTEGER</strong>.</li>
+                <li>Нажми ОК. Таблица создастся сама!</li>
+            </ol>
+            <p>Повтори для всех файлов, затем нажми <strong>«Записать изменения» (Write Changes)</strong>.</p>
+        </section>
+
+        <!-- МОДУЛЬ 2 -->
+        <section id="module2" class="section">
+            <h1>Модуль 2: Создание проекта и вывод данных</h1>
+            
+            <h2>Шаг 1: Подготовка</h2>
+            <p>Создай проект <strong>Приложение WPF (.NET)</strong>. Установи в NuGet пакеты: <code>Microsoft.EntityFrameworkCore.Sqlite</code> и <code>Microsoft.EntityFrameworkCore.Proxies</code>.</p>
+            <p>Перетащи в проект файл <code>database.db</code> и папку с картинками <code>Images</code>. В свойствах базы выбери «Копировать всегда», а в свойствах картинок — «Ресурс».</p>
+
+            <h2>Шаг 2: Автогенерация моделей (Самый важный лайфхак!)</h2>
+            <p>В меню Visual Studio открой: <strong>Вид -> Другие окна -> Консоль диспетчера пакетов</strong>. Вставь команду и нажми Enter:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code>Scaffold-DbContext "Data Source=database.db" Microsoft.EntityFrameworkCore.Sqlite -OutputDir Models -Force</code></pre>
+
+            <h2>Шаг 3: Включаем «Ленивую загрузку»</h2>
+            <p>В папке <code>Models</code> открой файл контекста. Под <code>UseSqlite(...)</code> добавь:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code>optionsBuilder.UseLazyLoadingProxies();</code></pre>
+            <p>В моделях (например, <code>Product.cs</code>) перед свойствами категорий добавь слово <code>virtual</code>.</p>
+
+            <h2>Шаг 4: Код вывода списка (MainWindow.xaml.cs)</h2>
+            <p>Этот код берет товары из БД и выводит их на экран. <em>(Замени YourProjectName на имя твоего проекта)</em>:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code>using System.Windows;
+using YourProjectName.Models; 
+using System.Linq;
+
+namespace YourProjectName
+{
+    public partial class MainWindow : Window
+    {
+        private Context db = new Context(); 
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            LoadData(); 
+        }
+
+        private void LoadData()
+        {
+            var products = db.Products.Select(p => new {
+                ProductName = p.Name,
+                CategoryName = p.Category.Name, 
+                Price = p.Price,
+                Quantity = p.StockItems.Sum(s => s.Quantity), 
+                ImagePath = string.IsNullOrEmpty(p.ImageFileName) 
+                            ? "/Images/picture.png" 
+                            : "/Images/Products/" + p.ImageFileName
+            }).ToList();
+
+            ProductList.ItemsSource = products;
+        }
+    }
+}</code></pre>
+            <p>В XAML (MainWindow.xaml) добавь <code>&lt;ListView x:Name="ProductList"&gt;</code> с шаблоном для карточек (он есть в печатной методичке).</p>
+        </section>
+
+        <!-- МОДУЛЬ 3 -->
+        <section id="module3" class="section">
+            <h1>Модуль 3: Добавление, Редактирование, Удаление</h1>
+            
+            <h2>Шаг 1: Удаление</h2>
+            <p>Добавь кнопку «Удалить» в XAML. В её обработчике напиши:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code>private void DeleteButton_Click(object sender, RoutedEventArgs e)
+{
+    dynamic selected = ProductList.SelectedItem;
+    if (selected == null) return;
+
+    var productToDelete = db.Products.FirstOrDefault(p => p.Id == selected.Id);
+    if (productToDelete != null)
+    {
+        db.Products.Remove(productToDelete);
+        db.SaveChanges(); 
+        LoadData();       
+    }
+}</code></pre>
+
+            <h2>Шаг 2: Добавление (Окно AddWindow)</h2>
+            <p>Создай новое окно WPF, назови <code>AddWindow</code>. Добавь текстовые поля для ввода.</p>
+            <p>Код кнопки «Сохранить» в окне AddWindow:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code>private void SaveButton_Click(object sender, RoutedEventArgs e)
+{
+    using (var db = new Context()) 
+    {
+        var newProduct = new Product();
+        newProduct.Name = NameBox.Text; 
+        newProduct.Price = float.Parse(PriceBox.Text); 
+
+        db.Products.Add(newProduct);
+        db.SaveChanges();
+    }
+    this.Close(); 
+}</code></pre>
+            <p>В главном окне, на кнопку «Добавить» напиши:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code>new AddWindow().ShowDialog(); 
+LoadData();</code></pre>
+        </section>
+
+        <!-- МОДУЛЬ 4 -->
+        <section id="module4" class="section">
+            <h1>Модуль 4: Роли (Скрытие кнопок)</h1>
+            <p><em>Задача: Сделать так, чтобы Менеджер не мог удалять товары.</em></p>
+            
+            <p>В методе, где ты загружаешь главное окно (или проверяешь логин), добавь условие:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code>string userRole = "Менеджер"; // Здесь должна быть проверка из БД
+
+if (userRole == "Менеджер")
+{
+    // Полностью скрываем кнопки добавления и удаления
+    AddButton.Visibility = Visibility.Collapsed;
+    DeleteButton.Visibility = Visibility.Collapsed;
+}
+else if (userRole == "Администратор")
+{
+    AddButton.Visibility = Visibility.Visible;
+    DeleteButton.Visibility = Visibility.Visible;
+}</code></pre>
+            <p><strong>Важно:</strong> Используй <code>Visibility.Collapsed</code>, а не <code>Hidden</code>. Collapsed полностью убирает кнопку и освобождает место, а Hidden оставляет пустое пятно.</p>
+        </section>
+
+        <!-- ТРЕНАЖЕР КОДА -->
+        <section id="compiler" class="section">
+            <h1>💻 Тренажер C# (Online Compiler)</h1>
+            <p>Здесь ты можешь тренироваться писать код на C#. Попробуй написать код для вывода массива или проверки логики, и нажми "Run".</p>
+            <div class="compiler-container">
+                <!-- Встроенный компилятор Programiz -->
+                <iframe src="https://www.programiz.com/csharp-programming/online-compiler/" allow="clipboard-read; clipboard-write"></iframe>
+            </div>
+        </section>
+
+        <!-- РЕСУРСЫ -->
+        <section id="resources" class="section">
+            <h1>📚 Полезные материалы</h1>
+            <h2>Видео-курсы (на русском):</h2>
+            <ul>
+                <li><a href="https://www.youtube.com/results?search_query=wpf+c%23+для+начинающих" target="_blank" style="color:var(--accent)">YouTube: Основы WPF и C# для начинающих</a></li>
+                <li><a href="https://metanit.com/sharp/wpf/" target="_blank" style="color:var(--accent)">Сайт Metanit: Руководство по WPF</a></li>
+            </ul>
+            <h2>Примеры прошлых экзаменов:</h2>
+            <ul>
+                <li><a href="#" style="color:var(--accent)">Скачать шаблон проекта (демо-версия)</a></li>
+                <li><a href="#" style="color:var(--accent)">Скачать пример БД (SQLite)</a></li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- ЧАТ-ПОМОЩНИК -->
+    <button class="chat-toggle" onclick="toggleChat()">💬</button>
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">Помощник Экзамена</div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="msg bot">Привет! Я помогу тебе сдать экзамен. Напиши мне ключевое слово (например: "Ошибка", "SQL", "Scaffold", "Роли", "Кнопки").</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Задай вопрос..." onkeypress="handleEnter(event)">
+            <button onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+
+    <script>
+        // Навигация
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Копирование кода
+        function copyCode(btn) {
+            const code = btn.nextElementSibling.innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.innerText = "Скопировано!";
+                setTimeout(() => btn.innerText = "Копировать", 2000);
+            });
+        }
+
+        // Чат-бот
+        function toggleChat() {
+            const chat = document.getElementById('chatWindow');
+            chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            addMessage(text, 'user');
+            input.value = '';
+
+            // Логика ответов
+            setTimeout(() => {
+                let reply = "Я не знаю такого слова. Попробуй спросить про: 'Ошибка', 'SQL', 'Scaffold', 'Кнопки', 'Роли'.";
+                const lower = text.toLowerCase();
+
+                if (lower.includes('sql') || lower.includes('бд')) {
+                    reply = "Для базы данных: используй DB Browser, не забудь поставить UTF-8 при импорте CSV и типы данных REAL для цен и INTEGER для ID!";
+                } else if (lower.includes('scaffold') || lower.includes('модел')) {
+                    reply = "Команда: Scaffold-DbContext \"Data Source=database.db\" Microsoft.EntityFrameworkCore.Sqlite -OutputDir Models -Force. Не забудь добавить пакеты NuGet!";
+                } else if (lower.includes('ошибка') || lower.includes('вылетает') || lower.includes('краш')) {
+                    reply = "Включи перехват ошибок в App.xaml.cs. Вставь блок с DispatcherUnhandledException, чтобы видеть текст ошибки, а не просто закрытие программы.";
+                } else if (lower.includes('кнопк') || lower.includes('добав') || lower.includes('удал')) {
+                    reply = "Для удаления используй db.Products.Remove(obj) и ОБЯЗАТЕЛЬНО db.SaveChanges(). Для добавления создай новое окно AddWindow и используй db.Products.Add(newProduct).";
+                } else if (lower.includes('рол') || lower.includes('скрыть') || lower.includes('менеджер')) {
+                    reply = "Используй AddButton.Visibility = Visibility.Collapsed. Hidden не подходит, так как оставляет пустое место на экране!";
+                } else if (lower.includes('картинк') || lower.includes('фото')) {
+                    reply = "Убедись, что в свойствах картинок в Visual Studio стоит 'Действие при сборке: Ресурс', а в базе данных в колонке image_file_name написано правильное имя файла.";
+                } else if (lower.includes('привет')) {
+                    reply = "Привет-привет! Готов сдавать? Спрашивай, что непонятно.";
+                }
+
+                addMessage(reply, 'bot');
+            }, 500);
+        }
+
+        function addMessage(text, sender) {
+            const msgs = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = `msg ${sender}`;
+            div.innerText = text;
+            msgs.appendChild(div);
+            msgs.scrollTop = msgs.scrollHeight;
+        }
+    </script>
+</body>
+</html>
