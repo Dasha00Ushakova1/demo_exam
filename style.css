@@ -94,3 +94,99 @@ p code, li code { background: var(--bg-code); color: var(--accent-light); paddin
 .chat-input-area input:focus { border-color: var(--accent-light); box-shadow: 0 0 10px var(--accent-glow); }
 .chat-input-area button { padding: 14px 22px; background: var(--accent); color: #fff; border: none; font-weight: 600; border-radius: 0 8px 8px 0; cursor: pointer; transition: 0.2s; }
 .chat-input-area button:hover { background: var(--accent-light); }
+/* ==============================================================
+   МОБИЛЬНАЯ ВЕРСИЯ (Адаптив для телефонов)
+   ============================================================== */
+@media (max-width: 768px) {
+    /* Меняем направление с горизонтального на вертикальное */
+    body { 
+        flex-direction: column; 
+        height: auto; 
+        overflow-y: auto; /* Разрешаем скролл всей странице */
+    }
+
+    /* --- Меню превращается в горизонтальную панель --- */
+    .sidebar { 
+        width: 100%; 
+        height: auto;
+        border-right: none; 
+        border-bottom: 1px solid var(--border); 
+        flex-direction: column;
+        overflow: visible;
+    }
+    
+    .logo { padding: 15px; }
+    
+    .nav-group { 
+        border-bottom: none; 
+        padding: 0; 
+        display: flex;
+        overflow-x: auto; /* Горизонтальный скролл для кнопок меню */
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
+    }
+    
+    .nav-title { display: none; } /* Скрываем заголовки групп для экономии места */
+
+    .nav-btn { 
+        padding: 12px 15px; 
+        border-left: none; 
+        border-bottom: 3px solid transparent;
+        width: auto;
+        flex-shrink: 0;
+    }
+    
+    .nav-btn.active { 
+        border-left: none; 
+        border-bottom-color: var(--accent-light); 
+        background: rgba(128, 0, 32, 0.15); 
+    }
+
+    /* --- Контент --- */
+    .content { 
+        padding: 20px 15px; 
+        overflow-y: visible; /* Убираем двойной скролл */
+    }
+
+    h1 { font-size: 24px; padding-bottom: 10px; margin-bottom: 20px; }
+    h2 { font-size: 20px; margin-top: 25px; }
+    p, li { font-size: 15px; }
+
+    /* Таймлайн на телефоне выстраиваем в столбик */
+    .time-item { 
+        flex-direction: column; 
+        align-items: flex-start; 
+        gap: 5px; 
+        margin-bottom: 15px;
+    }
+    .time-item span { min-width: auto; padding: 4px 10px; }
+
+    /* Блоки кода не должны вылезать за экран */
+    pre { 
+        font-size: 12px; 
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+    }
+    pre code.hljs { padding: 15px !important; }
+
+    /* Карточки ресурсов в одну колонку */
+    .resource-grid { 
+        grid-template-columns: 1fr; 
+    }
+
+    /* --- Чат --- */
+    .chat-toggle { 
+        width: 50px; 
+        height: 50px; 
+        font-size: 24px; 
+        bottom: 15px; 
+        right: 15px; 
+    }
+    
+    .chat-window { 
+        width: calc(100% - 30px); 
+        right: 15px; 
+        bottom: 75px; 
+        height: 450px; 
+    }
+}
