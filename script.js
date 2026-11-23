@@ -27,7 +27,6 @@ function copyCode(btn) {
     });
 }
 
-// =============== ЧАТ-БОТ (МЕГА-БАЗА ЗНАНИЙ) ===============
 function toggleChat() {
     const chat = document.getElementById('chatWindow');
     chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
@@ -44,6 +43,7 @@ function sendMessage() {
 
     addMessage(text, 'user');
     input.value = '';
+
 
     setTimeout(() => {
         let reply = "Я не нашел точного совпадения в базе знаний. Опиши проблему по-другому. Например, используй слова: 'ошибка', 'не работает', 'xaml', 'sql', 'картинки', 'ключи', 'сохранение'.";
@@ -141,10 +141,35 @@ function sendMessage() {
         } else if (lower.includes('привет') || lower.includes('здравствуй')) {
             reply = "Привет! Готов сдавать? Я знаю ответы на большинство ошибок. Спрашивай про ключи, скидки, картинки или код.";
         }
+ // ЖЕСТКИЕ ТРЕБОВАНИЯ ЭКЗАМЕНА
+        if (lower.includes('картинк') || lower.includes('300') || lower.includes('фото')) {
+            reply = "🖼️ **Картинки 300x200:** Используй `OpenFileDialog`, проверь `PixelWidth` и `PixelHeight`. Если больше — выдай `MessageBox`. При сохранении копируй файл в папку `Images/Products/` и запиши новое имя в БД. Старый файл удали через `File.Delete()`.";
+        } else if (lower.includes('скидк') || lower.includes('15%') || lower.includes('цена')) {
+            reply = "💰 **Скидка и цвета:** `BgColor = p.Discount > 15 ? \"#2E8B57\" : \"White\"`. Если нет на складе: `p.Quantity == 0 ? \"LightBlue\" : ...`. Цена со скидкой: `Price - (Price * Discount / 100)`.";
+        } else if (lower.includes('перечерк') || lower.includes('цена красн')) {
+            reply = "💰 **Перечеркнутая цена:** В XAML используй `<TextBlock TextDecorations=\"Strikethrough\" Foreground=\"Red\"/>` для старой цены. И рядом обычный `<TextBlock>` для итоговой.";
+        } else if (lower.includes('поиск') || lower.includes('фильтр') || lower.includes('сортировк')) {
+            reply = "🔎 **Поиск/Сортировка:** Используй `AsQueryable()`. Применяй `.Where(p => p.Name.Contains(SearchBox.Text))` для поиска и `.OrderBy(p => p.Quantity)` для сортировки. Вызывай метод `LoadData()` в событии `TextChanged` или `SelectionChanged`.";
+        } else if (lower.includes('роль') || lower.includes('менеджер') || lower.includes('админ') || lower.includes('гость')) {
+            reply = "🔐 **Роли:** Передай роль в `MainWindow` из окна логина. В конструкторе главного окна сделай `if (role == \"Гость\") SearchBox.Visibility = Visibility.Collapsed;`.";
+        } else if (lower.includes('заказ') || lower.includes('артикул')) {
+            reply = "📦 **Заказы:** Создай `OrdersWindow`. Для менеджера показывай таблицу, для админа — кнопки Добавить/Удалить. Скрывай кнопки через `Visibility.Collapsed`, если роль не Админ.";
+        
+        // ОШИБКИ И ОБЩЕЕ
+        } else if (lower.includes('nullreference') || lower.includes('null')) {
+            reply = "💻 **NullReferenceException:** Ты обращаешься к пустому объекту. Проверь, что все `virtual` свойства загружены. Если это `Sum()`, проверь, есть ли у товара складские позиции.";
+        } else if (lower.includes('context') || lower.includes('does not exist')) {
+            reply = "💻 **Context не найден:** В самом верху файла напиши `using ИмяПроекта.Models;`.";
+        } else if (lower.includes('scaffold') || lower.includes('модел')) {
+            reply = "⚙️ **Scaffold:** Консоль диспетчера пакетов -> \n`Scaffold-DbContext \"Data Source=database.db\" Microsoft.EntityFrameworkCore.Sqlite -OutputDir Models -Force`";
+        } else if (lower.includes('краш') || lower.includes('вылетает')) {
+            reply = "💻 **Падает:** В `App.xaml.cs` добавь перехватчик ошибок. Тогда увидишь текст проблемы.";
+        }
 
         addMessage(reply, 'bot');
     }, 500);
 }
+ 
 
 function addMessage(text, sender) {
     const msgs = document.getElementById('chatMessages');
