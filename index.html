@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сборочный чертеж ДЭ 09.02.07</title>
+    <title>ДЭ 09.02.07</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -21,15 +21,14 @@
         <div class="nav-group">
             <div class="nav-title">Старт</div>
             <button class="nav-btn active" onclick="showPage('intro', this)">План сдачи</button>
-            <button class="nav-btn" onclick="showPage('db_setup', this)">1. Настройка БД</button>
         </div>
 
         <div class="nav-group">
-            <div class="nav-title">Код приложения (Копируй)</div>
-            <button class="nav-btn" onclick="showPage('app_init', this)">2. Каркас и Авторизация</button>
-            <button class="nav-btn" onclick="showPage('app_catalog', this)">3. Каталог и Скидки</button>
-            <button class="nav-btn" onclick="showPage('app_edit', this)">4. Добавление и Картинки</button>
-            <button class="nav-btn" onclick="showPage('app_orders', this)">5. Заказы</button>
+            <div class="nav-title">Модули экзамена</div>
+            <button class="nav-btn" onclick="showPage('module1', this)">Модуль 1. База данных</button>
+            <button class="nav-btn" onclick="showPage('module2', this)">Модуль 2. WPF и Каталог</button>
+            <button class="nav-btn" onclick="showPage('module3', this)">Модуль 3. Редактирование и Фото</button>
+            <button class="nav-btn" onclick="showPage('module4', this)">Модуль 4. Заказы и Роли</button>
         </div>
 
         <div class="nav-group">
@@ -42,25 +41,24 @@
         
         <!-- ВВЕДЕНИЕ -->
         <section id="intro" class="page active">
-            <h1>План сдачи экзамена</h1>
+            <h1>дЛЯ студентов</h1>
             <div class="alert alert-info">
-                <strong>дЛЯ студентов</strong>
+                <strong>Внимание!</strong> В задании очень много требований. Мы не будем учить программирование с нуля. Мы будем собирать приложение по инструкции. Выполняй шаги строго по порядку.
             </div>
 
             <h2>Твой тайминг:</h2>
             <div class="timeline">
-                <div class="time-item"><span>40 мин</span> <div>База данных (SQL)</div></div>
-                <div class="time-item"><span>30 мин</span> <div>Каркас WPF и Scaffold</div></div>
-                <div class="time-item"><span>60 мин</span> <div>Каталог: вывод картинок, цен, скидок и цветов</div></div>
-                <div class="time-item"><span>60 мин</span> <div>Добавление/Редактирование товаров и загрузка фото</div></div>
-                <div class="time-item"><span>30 мин</span> <div>Заказы и Роли</div></div>
+                <div class="time-item"><span>40 мин</span> <div>Модуль 1: База данных (SQL)</div></div>
+                <div class="time-item"><span>80 мин</span> <div>Модуль 2: Каркас, Авторизация и Каталог</div></div>
+                <div class="time-item"><span>60 мин</span> <div>Модуль 3: Добавление, Редактирование и Фото</div></div>
+                <div class="time-item"><span>30 мин</span> <div>Модуль 4: Заказы и Роли</div></div>
             </div>
         </section>
 
-         <!-- МОДУЛЬ 1 -->
+        <!-- МОДУЛЬ 1 -->
         <section id="module1" class="page">
-            <h1>Модуль 1: База данных и Ключи</h1>
-            <p><em>Задача: Создать таблицы, настроить связи и импортировать данные.</em></p>
+            <h1>Модуль 1: База данных</h1>
+            <p><em>Задача: Создать таблицы, настроить связи и импортировать данные из Excel.</em></p>
             
             <h2>Шаг 1: Конвертация Excel в CSV</h2>
             <p>DB Browser не понимает <code>.xlsx</code>. Открой файлы в Excel и сохрани как <strong>CSV UTF-8 (разделитель запятая)</strong>.</p>
@@ -70,43 +68,29 @@
                 <li>Открой DB Browser, создай базу <code>database.db</code>.</li>
                 <li>Файл -> Импорт -> Таблица из CSV. Выбери файл.</li>
                 <li><strong>КРИТИЧНО:</strong> Внизу окна смени типы данных. Цена (Price) = <strong>REAL</strong>, Количество (Quantity) = <strong>INTEGER</strong>.</li>
-                <li>Нажми ОК и сохрани изменения.</li>
+                <li>Нажми ОК и сохрани изменения (Write Changes).</li>
             </ol>
 
             <h2>Шаг 3: Настройка Первичных и Внешних ключей (Связи)</h2>
             <div class="explanation">
-                <strong>Зачем это нужно?</strong> Ключи нужны, чтобы база не удалила категорию, если на неё ссылается товар, и чтобы в заказ нельзя было добавить несуществующий размер обуви.
+                <strong>Зачем это нужно?</strong> Ключи нужны, чтобы база не удалила категорию, если на неё ссылается товар, и чтобы в заказ нельзя было добавить несуществующий товар.
             </div>
             <ol>
-                <li>Перейди во вкладку <strong>Database Structure</strong> (Структура БД).</li>
+                <li>Перейди во вкладку <strong>Database Structure</strong>.</li>
                 <li>Нажми ПКМ по таблице (например, <code>products</code>) -> <strong>Изменить таблицу</strong>.</li>
-                <li><strong>Первичный ключ (PK):</strong> Дважды кликни по колонке <code>id</code> и поставь галочку <strong>PK</strong> (Primary Key).</li>
-                <li><strong>Внешний ключ (FK):</strong> Перейди на вкладку <strong>Foreign Keys</strong> внизу. Нажми <strong>Add</strong>.
-                    <br>В колонке <i>Table</i> выбери таблицу-справочник (например, <code>categories</code>).
-                    <br>В колонке <i>To</i> выбери <code>id</code>.
-                    <br>В колонке <i>From</i> выбери <code>category_id</code>.
-                </li>
+                <li><strong>Первичный ключ (PK):</strong> Дважды кликни по колонке <code>id</code> и поставь галочку <strong>PK</strong>.</li>
+                <li><strong>Внешний ключ (FK):</strong> Перейди на вкладку <strong>Foreign Keys</strong> внизу. Нажми <strong>Add</strong>. Укажи связи (например, <code>From: category_id</code>, <code>Table: categories</code>, <code>To: id</code>).</li>
                 <li>Нажми ОК и <strong>Записать изменения</strong>.</li>
             </ol>
 
-            <h2>Шаг 4: Составной ключ (Для склада и заказов)</h2>
-            <p>В таблице <code>stock_items</code> товар может иметь несколько размеров. Чтобы строка была уникальной, ключ делается из двух столбцов.</p>
-            <ol>
-                <li>Открой таблицу на изменение.</li>
-                <li>Выдели сразу два столбца (например, <code>product_id</code> и <code>size_id</code>), зажав Ctrl.</li>
-                <li>Внизу нажми кнопку с иконкой ключа <strong>Set Primary Key</strong>.</li>
-            </ol>
-
-            <h2>Шаг 5: ER-диаграмма (draw.io)</h2>
+            <h2>Шаг 4: ER-диаграмма (draw.io)</h2>
             <p>1. В DB Browser: Файл -> Экспорт -> База данных в SQL. Сними галочки с INSERT.</p>
             <p>2. Открой сайт <code>draw.io</code>. Меню: Упорядочить -> Вставить -> Расширенные -> SQL. Вставь код. Таблицы появятся сами!</p>
-            <p>3. Соедини их стрелками "вороньи лапки" (Один-ко-многим).</p>
         </section>
 
-
-        <!-- КАРКАС И АВТОРИЗАЦИЯ -->
-        <section id="app_init" class="page">
-            <h1>2. Каркас и Авторизация</h1>
+        <!-- МОДУЛЬ 2 -->
+        <section id="module2" class="page">
+            <h1>Модуль 2: WPF (Авторизация и Каталог)</h1>
             
             <h2>Шаг 1. Создай проект</h2>
             <p>WPF (.NET). Установи пакеты: <code>Microsoft.EntityFrameworkCore.Sqlite</code> и <code>Proxies</code>. Перетащи <code>database.db</code> и папку <code>Images</code> в проект. Настрой свойства (Копировать всегда / Ресурс).</p>
@@ -115,7 +99,7 @@
             <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-powershell">Scaffold-DbContext "Data Source=database.db" Microsoft.EntityFrameworkCore.Sqlite -OutputDir Models -Force</code></pre>
             <p>В <code>Context.cs</code> добавь <code>optionsBuilder.UseLazyLoadingProxies();</code>. В моделях добавь <code>virtual</code> перед связями.</p>
 
-            <h2>Шаг 3. Перехват ошибок (Обязательно!)</h2>
+            <h2>Шаг 3. Перехват ошибок</h2>
             <p>Открой <code>App.xaml.cs</code>, чтобы программа не закрывалась молча:</p>
             <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">protected override void OnStartup(StartupEventArgs e) {
     base.OnStartup(e);
@@ -125,14 +109,12 @@
     };
 }</code></pre>
 
-            <h2>Шаг 4. Окно входа (LoginWindow.xaml)</h2>
+            <h2>Шаг 4. Окно входа (LoginWindow.xaml.cs)</h2>
             <p>Добавь новое окно <code>LoginWindow</code>. Верстка: TextBox для логина, PasswordBox для пароля, кнопка "Войти" и "Гость".</p>
-            <p>Код для проверки логина (в <code>LoginWindow.xaml.cs</code>):</p>
             <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">private void LoginBtn_Click(object sender, RoutedEventArgs e) {
     using (var db = new Context()) {
         var user = db.Users.FirstOrDefault(u => u.Login == LoginBox.Text && u.Password == PassBox.Password);
         if (user != null) {
-            // Запоминаем роль
             string roleName = user.Role.Name; 
             MainWindow main = new MainWindow(roleName, user.FullName);
             main.Show();
@@ -148,15 +130,8 @@ private void GuestBtn_Click(object sender, RoutedEventArgs e) {
     main.Show();
     this.Close();
 }</code></pre>
-        </section>
 
-        <!-- КАТАЛОГ И СКИДКИ -->
-        <section id="app_catalog" class="page">
-            <h1>3. Каталог (Все сложные требования)</h1>
-            <p>В этом коде реализованы: цвета, перечеркнутая цена, сортировка, фильтрация по поставщику и поиск в реальном времени.</p>
-            
-            <h2>Шаг 1. Главное окно (MainWindow.xaml)</h2>
-            <p>Создай панель поиска, выпадающий список поставщиков, кнопку сортировки и ListView для товаров.</p>
+            <h2>Шаг 5. Главное окно каталога (MainWindow.xaml)</h2>
             <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-xml">&lt;StackPanel Orientation="Horizontal"&gt;
     &lt;TextBox x:Name="SearchBox" Width="200" TextChanged="Filter_Changed"/&gt;
     &lt;ComboBox x:Name="SupplierBox" Width="150" SelectionChanged="Filter_Changed"&gt;&lt;/ComboBox&gt;
@@ -165,14 +140,12 @@ private void GuestBtn_Click(object sender, RoutedEventArgs e) {
 &lt;ListView x:Name="ProductList"&gt;
     &lt;ListView.ItemTemplate&gt;
         &lt;DataTemplate&gt;
-            &lt;!-- Подсветка фона: если нет на складе - голубой, если скидка > 15% - зеленый --&gt;
             &lt;Border Background="{Binding BgColor}" BorderBrush="Gray" BorderThickness="1" Margin="5"&gt;
                 &lt;StackPanel Orientation="Horizontal"&gt;
                     &lt;Image Source="{Binding ImgPath}" Width="100" Height="100"/&gt;
                     &lt;StackPanel Margin="10"&gt;
                         &lt;TextBlock Text="{Binding ProdName}" FontWeight="Bold"/&gt;
                         &lt;TextBlock Text="{Binding Description}" TextWrapping="Wrap" Width="300"/&gt;
-                        &lt;TextBlock Text="{Binding ManufacturerName}"/&gt;
                         
                         &lt;!-- Перечеркнутая цена и итоговая цена --&gt;
                         &lt;StackPanel Orientation="Horizontal"&gt;
@@ -187,35 +160,27 @@ private void GuestBtn_Click(object sender, RoutedEventArgs e) {
     &lt;/ListView.ItemTemplate&gt;
 &lt;/ListView&gt;</code></pre>
 
-            <h2>Шаг 2. Логика каталога (MainWindow.xaml.cs)</h2>
+            <h2>Шаг 6. Логика каталога (MainWindow.xaml.cs)</h2>
             <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">public partial class MainWindow : Window {
     private Context db = new Context();
     private string currentRole;
-    private string currentUser;
     private bool isAscending = true;
 
-    // Получаем роль из окна логина
     public MainWindow(string role, string fullName) {
         InitializeComponent();
         currentRole = role;
-        currentUser = fullName;
-        UserNameText.Text = fullName; // В правом верхнем углу
+        UserNameText.Text = fullName;
         
-        // Роли
-        if (role == "Менеджер" || role == "Администратор") {
-            // Показываем поиск и сортировку
-        } else {
+        if (role == "Гость") {
             SearchBox.Visibility = Visibility.Collapsed;
             SupplierBox.Visibility = Visibility.Collapsed;
         }
-
         LoadData();
     }
 
     private void LoadData() {
         var query = db.Products.AsQueryable();
 
-        // ФИЛЬТРАЦИЯ (Поиск и поставщик)
         if (!string.IsNullOrEmpty(SearchBox.Text)) {
             query = query.Where(p => p.Name.Contains(SearchBox.Text) || p.Description.Contains(SearchBox.Text));
         }
@@ -223,23 +188,18 @@ private void GuestBtn_Click(object sender, RoutedEventArgs e) {
             query = query.Where(p => p.SupplierId == (int)SupplierBox.SelectedValue);
         }
 
-        // СОРТИРОВКА
         if (isAscending) query = query.OrderBy(p => p.Quantity);
         else query = query.OrderByDescending(p => p.Quantity);
 
-        // ВЫВОД
         var products = query.Select(p => new {
             p.Id,
             ProdName = p.Name,
             p.Description,
-            ManufacturerName = p.Manufacturer.Name,
             Price = p.Price,
-            FinalPrice = p.Price - (p.Price * p.Discount / 100), // Скидка
+            FinalPrice = p.Price - (p.Price * p.Discount / 100),
             IsDiscounted = p.Discount > 0 ? Visibility.Visible : Visibility.Collapsed,
             p.Quantity,
             ImgPath = string.IsNullOrEmpty(p.ImagePath) ? "/Images/picture.png" : "/Images/Products/" + p.ImagePath,
-            
-            // Цвета по заданию
             BgColor = p.Quantity == 0 ? "LightBlue" : (p.Discount > 15 ? "#2E8B57" : "White")
         }).ToList();
 
@@ -247,23 +207,16 @@ private void GuestBtn_Click(object sender, RoutedEventArgs e) {
     }
 
     private void Filter_Changed(object sender, EventArgs e) { LoadData(); }
-    
-    private void SortBtn_Click(object sender, RoutedEventArgs e) {
-        isAscending = !isAscending;
-        LoadData();
-    }
+    private void SortBtn_Click(object sender, RoutedEventArgs e) { isAscending = !isAscending; LoadData(); }
 }</code></pre>
         </section>
 
-        <!-- ДОБАВЛЕНИЕ И КАРТИНКИ -->
-        <section id="app_edit" class="page">
-            <h1>4. Добавление, Редактирование и Загрузка Фото</h1>
-            <p>В задании строгие требования: фото 300х200, удаление старого фото, запрет на открытие двух окон.</p>
+        <!-- МОДУЛЬ 3 -->
+        <section id="module3" class="page">
+            <h1>Модуль 3: Редактирование и Загрузка Фото</h1>
+            <p>Требования: фото 300х200, удаление старого фото, запрет на открытие двух окон.</p>
             
-            <h2>Шаг 1. Окно EditWindow</h2>
-            <p>Создай окно. Добавь поля ввода и кнопку "Загрузить фото".</p>
-            
-            <h2>Шаг 2. Код сохранения с картинкой (EditWindow.xaml.cs)</h2>
+            <h2>Шаг 1. Код сохранения с картинкой (EditWindow.xaml.cs)</h2>
             <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">private string newImagePath = null;
 
 private void LoadPhoto_Click(object sender, RoutedEventArgs e) {
@@ -271,9 +224,8 @@ private void LoadPhoto_Click(object sender, RoutedEventArgs e) {
     ofd.Filter = "Images|*.jpg;*.png";
     if (ofd.ShowDialog() == true) {
         BitmapImage img = new BitmapImage(new Uri(ofd.FileName));
-        // ПРОВЕРКА РАЗМЕРА 300х200
         if (img.PixelWidth > 300 || img.PixelHeight > 200) {
-            MessageBox.Show("Картинка должна быть 300х200!");
+            MessageBox.Show("Картинка должна быть не больше 300х200!");
             return;
         }
         newImagePath = ofd.FileName;
@@ -283,12 +235,13 @@ private void LoadPhoto_Click(object sender, RoutedEventArgs e) {
 
 private void SaveBtn_Click(object sender, RoutedEventArgs e) {
     using (var db = new Context()) {
-        var product = db.Products.Find(productId); // Для редактирования
+        var product = db.Products.Find(productId);
         
         if (newImagePath != null) {
             // Удаляем старую картинку
             if (!string.IsNullOrEmpty(product.ImagePath)) {
-                File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images/Products/", product.ImagePath));
+                string oldPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images/Products/", product.ImagePath);
+                if (File.Exists(oldPath)) File.Delete(oldPath);
             }
             // Копируем новую
             string fileName = Guid.NewGuid().ToString() + ".jpg";
@@ -296,20 +249,18 @@ private void SaveBtn_Click(object sender, RoutedEventArgs e) {
             File.Copy(newImagePath, destPath);
             product.ImagePath = fileName;
         }
-        
-        // Сохраняем данные
         db.SaveChanges();
         this.Close();
     }
 }</code></pre>
             <div class="explanation">
-                <strong>Запрет на два окна:</strong> В главном окне используй переменную <code>private EditWindow currentEditWindow = null;</code>. Если она не null — покажи сообщение, что окно уже открыто.
+                <strong>Запрет на два окна:</strong> В главном окне используй <code>private EditWindow currentEditWindow = null;</code>. Если она не null — покажи сообщение.
             </div>
         </section>
 
-        <!-- ЗАКАЗЫ -->
-        <section id="app_orders" class="page">
-            <h1>5. Заказы</h1>
+        <!-- МОДУЛЬ 4 -->
+        <section id="module4" class="page">
+            <h1>Модуль 4: Заказы и Роли</h1>
             <p>Менеджер и Администратор должны видеть кнопку "Заказы".</p>
             <p>Создай <code>OrdersWindow.xaml</code>. Выведи таблицу с Артикулом, Статусом, Адресом, Датами. Только Администратор может добавлять/редактировать/удалять.</p>
             <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">// В MainWindow.xaml.cs
@@ -333,13 +284,13 @@ private void DeleteOrder_Click(object sender, RoutedEventArgs e) {
             <p>Если хочешь разобраться в коде, вот лучшие ресурсы:</p>
             <div class="resource-grid">
                 <div class="card res-card">
-                    <div class="res-icon"></div>
+                    <div class="res-icon">📚</div>
                     <h3>Metanit</h3>
                     <p>Руководство по WPF и EF Core на русском. Лучший справочник.</p>
                     <a href="https://metanit.com/sharp/wpf/" target="_blank" class="res-link">Перейти →</a>
                 </div>
                 <div class="card res-card">
-                    <div class="res-icon"></div>
+                    <div class="res-icon">🎥</div>
                     <h3>ITVDN</h3>
                     <p>Видеокурсы по WPF и Entity Framework. Помогают понять суть.</p>
                     <a href="https://itvdn.com/ru/video/wpf" target="_blank" class="res-link">Смотреть →</a>
