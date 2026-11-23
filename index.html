@@ -17,7 +17,7 @@
         <div class="logo">
             <h2>ДЭ 09.02.07</h2>
         </div>
-        
+
         <div class="nav-group">
             <div class="nav-title">Старт</div>
             <button class="nav-btn active" onclick="showPage('intro', this)">План сдачи</button>
@@ -38,7 +38,7 @@
     </nav>
 
     <main class="content">
-        
+
         <!-- ВВЕДЕНИЕ -->
         <section id="intro" class="page active">
             <h1>дЛЯ студентов</h1>
@@ -56,7 +56,7 @@
         <section id="module1" class="page">
             <h1>Модуль 1: База данных</h1>
             <p><em>Задача: Создать таблицы, настроить связи и импортировать данные из Excel.</em></p>
-            
+
             <h2>Шаг 1: Конвертация Excel в CSV</h2>
             <p>DB Browser не понимает <code>.xlsx</code>. Открой файлы в Excel и сохрани как <strong>CSV UTF-8 (разделитель запятая)</strong>.</p>
 
@@ -88,7 +88,7 @@
         <!-- МОДУЛЬ 2 -->
         <section id="module2" class="page">
             <h1>Модуль 2: WPF (Авторизация и Каталог)</h1>
-            
+
             <h2>Шаг 1. Создай проект</h2>
             <p>WPF (.NET). Установи пакеты: <code>Microsoft.EntityFrameworkCore.Sqlite</code> и <code>Proxies</code>. Перетащи <code>database.db</code> и папку <code>Images</code> в проект. Настрой свойства (Копировать всегда / Ресурс).</p>
 
@@ -112,7 +112,7 @@
     using (var db = new Context()) {
         var user = db.Users.FirstOrDefault(u => u.Login == LoginBox.Text && u.Password == PassBox.Password);
         if (user != null) {
-            string roleName = user.Role.Name; 
+            string roleName = user.Role.Name;
             MainWindow main = new MainWindow(roleName, user.FullName);
             main.Show();
             this.Close();
@@ -143,7 +143,7 @@ private void GuestBtn_Click(object sender, RoutedEventArgs e) {
                     &lt;StackPanel Margin="10"&gt;
                         &lt;TextBlock Text="{Binding ProdName}" FontWeight="Bold"/&gt;
                         &lt;TextBlock Text="{Binding Description}" TextWrapping="Wrap" Width="300"/&gt;
-                        
+
                         &lt;!-- Перечеркнутая цена и итоговая цена --&gt;
                         &lt;StackPanel Orientation="Horizontal"&gt;
                             &lt;TextBlock Text="{Binding Price, StringFormat={}{0} руб.}" TextDecorations="Strikethrough" Foreground="Red" Margin="0,0,10,0" Visibility="{Binding IsDiscounted}"/&gt;
@@ -167,7 +167,7 @@ private void GuestBtn_Click(object sender, RoutedEventArgs e) {
         InitializeComponent();
         currentRole = role;
         UserNameText.Text = fullName;
-        
+
         if (role == "Гость") {
             SearchBox.Visibility = Visibility.Collapsed;
             SupplierBox.Visibility = Visibility.Collapsed;
@@ -212,7 +212,7 @@ private void GuestBtn_Click(object sender, RoutedEventArgs e) {
         <section id="module3" class="page">
             <h1>Модуль 3: Редактирование и Загрузка Фото</h1>
             <p>Требования: фото 300х200, удаление старого фото, запрет на открытие двух окон.</p>
-            
+
             <h2>Шаг 1. Код сохранения с картинкой (EditWindow.xaml.cs)</h2>
             <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">private string newImagePath = null;
 
@@ -233,7 +233,7 @@ private void LoadPhoto_Click(object sender, RoutedEventArgs e) {
 private void SaveBtn_Click(object sender, RoutedEventArgs e) {
     using (var db = new Context()) {
         var product = db.Products.Find(productId);
-        
+
         if (newImagePath != null) {
             // Удаляем старую картинку
             if (!string.IsNullOrEmpty(product.ImagePath)) {
@@ -258,20 +258,72 @@ private void SaveBtn_Click(object sender, RoutedEventArgs e) {
         <!-- МОДУЛЬ 4 -->
         <section id="module4" class="page">
             <h1>Модуль 4: Заказы и Роли</h1>
-            <p>Менеджер и Администратор должны видеть кнопку "Заказы".</p>
-            <p>Создай <code>OrdersWindow.xaml</code>. Выведи таблицу с Артикулом, Статусом, Адресом, Датами. Только Администратор может добавлять/редактировать/удалять.</p>
-            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">// В MainWindow.xaml.cs
-if (currentRole == "Менеджер" || currentRole == "Администратор") {
-    OrdersBtn.Visibility = Visibility.Visible;
-}
+            <p><em>Задача: Настроить оформление заказов и права доступа по ролям.</em></p>
 
-// В окне Заказов
-private void DeleteOrder_Click(object sender, RoutedEventArgs e) {
-    if (currentRole != "Администратор") {
-        MessageBox.Show("У вас нет прав на удаление!");
+            <h2>Шаг 1. Переключатель ролей (для теста)</h2>
+            <p>Чтобы проверить скрытие кнопок, добавь в <code>MainWindow.xaml</code> выпадающий список:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-xml">&lt;StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10"&gt;
+    &lt;TextBlock Text="Вы вошли как: " VerticalAlignment="Center" FontWeight="Bold"/&gt;
+    &lt;ComboBox x:Name="RoleSelector" Width="150" Margin="5" SelectionChanged="RoleSelector_SelectionChanged"&gt;
+        &lt;ComboBoxItem Content="Администратор" IsSelected="True"/&gt;
+        &lt;ComboBoxItem Content="Менеджер"/&gt;
+        &lt;ComboBoxItem Content="Клиент"/&gt;
+    &lt;/ComboBox&gt;
+    &lt;Button x:Name="AddButton" Content="Добавить" Click="AddButton_Click" Width="100" Margin="15,0,5,0"/&gt;
+    &lt;Button x:Name="EditButton" Content="Редактировать" Click="EditButton_Click" Width="100" Margin="0,0,5,0"/&gt;
+    &lt;Button x:Name="DeleteButton" Content="Удалить" Click="DeleteButton_Click" Width="100"/&gt;
+&lt;/StackPanel&gt;</code></pre>
+
+            <h2>Шаг 2. Логика скрытия кнопок</h2>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">private void RoleSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+{
+    if (RoleSelector == null || AddButton == null) return;
+    string role = (RoleSelector.SelectedItem as ComboBoxItem).Content.ToString();
+
+    if (role == "Администратор")
+    {
+        AddButton.Visibility = Visibility.Visible;
+        EditButton.Visibility = Visibility.Visible;
+        DeleteButton.Visibility = Visibility.Visible;
+    }
+    else if (role == "Менеджер")
+    {
+        AddButton.Visibility = Visibility.Collapsed;
+        EditButton.Visibility = Visibility.Visible;
+        DeleteButton.Visibility = Visibility.Collapsed;
+    }
+    else
+    {
+        AddButton.Visibility = Visibility.Collapsed;
+        EditButton.Visibility = Visibility.Collapsed;
+        DeleteButton.Visibility = Visibility.Collapsed;
+    }
+}</code></pre>
+            <div class="explanation">
+                <strong>Collapsed vs Hidden:</strong> <code>Collapsed</code> полностью убирает кнопку (место освобождается), <code>Hidden</code> оставляет пустое место. Используй <code>Collapsed</code>.
+            </div>
+
+            <h2>Шаг 3. Окно заказов (OrdersWindow)</h2>
+            <p>Добавь новое окно <code>OrdersWindow.xaml</code>. Показывай его только Менеджеру и Админу:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">private void OrdersBtn_Click(object sender, RoutedEventArgs e)
+{
+    if (currentRole == "Гость" || currentRole == "Клиент")
+    {
+        MessageBox.Show("Недостаточно прав!");
         return;
     }
-    // ... код удаления db.Orders.Remove(...)
+    new OrdersWindow().ShowDialog();
+}</code></pre>
+
+            <h2>Шаг 4. Роль из базы данных</h2>
+            <p>На экзамене роль обычно берётся из таблицы <code>Users</code>:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">var user = db.Users.FirstOrDefault(u => u.Login == LoginBox.Text &amp;&amp; u.Password == PassBox.Password);
+if (user != null)
+{
+    string realRole = user.Role.Name;
+    MainWindow main = new MainWindow(realRole, user.FullName);
+    main.Show();
+    this.Close();
 }</code></pre>
         </section>
 
@@ -281,13 +333,13 @@ private void DeleteOrder_Click(object sender, RoutedEventArgs e) {
             <p>Если хочешь разобраться в коде, вот лучшие ресурсы:</p>
             <div class="resource-grid">
                 <div class="card res-card">
-                    <div class="res-icon">📚</div>
+                    <div class="res-icon"></div>
                     <h3>Metanit</h3>
                     <p>Руководство по WPF и EF Core на русском. Лучший справочник.</p>
                     <a href="https://metanit.com/sharp/wpf/" target="_blank" class="res-link">Перейти →</a>
                 </div>
                 <div class="card res-card">
-                    <div class="res-icon">🎥</div>
+                    <div class="res-icon"></div>
                     <h3>ITVDN</h3>
                     <p>Видеокурсы по WPF и Entity Framework. Помогают понять суть.</p>
                     <a href="https://itvdn.com/ru/video/wpf" target="_blank" class="res-link">Смотреть →</a>
