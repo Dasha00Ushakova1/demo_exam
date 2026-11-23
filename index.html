@@ -22,15 +22,15 @@
         <div class="nav-group">
             <div class="nav-title">Старт</div>
             <button class="nav-btn active" onclick="showPage('intro', this)">Инструкция</button>
-            <button class="nav-btn" onclick="showPage('theory', this)">Как это работает?</button>
+            <button class="nav-btn" onclick="showPage('theory', this)">Базовые понятия</button>
         </div>
 
         <div class="nav-group">
             <div class="nav-title">Модули</div>
             <button class="nav-btn" onclick="showPage('module1', this)">01. База данных</button>
-            <button class="nav-btn" onclick="showPage('module2', this)">02. WPF (C#)</button>
-            <button class="nav-btn" onclick="showPage('module3', this)">03. Кнопки (CRUD)</button>
-            <button class="nav-btn" onclick="showPage('module4', this)">04. Роли</button>
+            <button class="nav-btn" onclick="showPage('module2', this)">02. WPF (Интерфейс)</button>
+            <button class="nav-btn" onclick="showPage('module3', this)">03. Код C# (CRUD)</button>
+            <button class="nav-btn" onclick="showPage('module4', this)">04. Роли (Доступ)</button>
         </div>
 
         <div class="nav-group">
@@ -45,117 +45,165 @@
         <section id="intro" class="page active">
             <h1>Привет, студент!</h1>
             <div class="alert alert-info">
-                <strong>Этот сайт — твоя шпаргалка.</strong> На экзамене ты можешь открыть его на телефоне или втором экране. Если ты не знаешь, что делать — жми на кнопку чата в правом нижнем углу и пиши свою ошибку. Бот выдаст решение.
+                <strong>Этот сайт — твой спасатель на экзамене.</strong> Если ты не знаешь, что делать, если у тебя вылетает ошибка или ты просто застрял — жми на кнопку чата в правом нижнем углу. Бот знает ответы на 100+ типичных ошибок новичков.
             </div>
 
             <h2>Твой план на 4 часа:</h2>
             <div class="timeline">
                 <div class="time-item"><span>40 мин</span> <div>Модуль 1: База данных (импорт из Excel)</div></div>
-                <div class="time-item"><span>80 мин</span> <div>Модуль 2: Создание приложения и вывод товаров</div></div>
-                <div class="time-item"><span>60 мин</span> <div>Модуль 3: Добавление и удаление товаров</div></div>
-                <div class="time-item"><span>30 мин</span> <div>Модуль 4: Скрытие кнопок (Роли)</div></div>
-                <div class="time-item"><span>30 мин</span> <div>Проверка и сдача</div></div>
+                <div class="time-item"><span>80 мин</span> <div>Модуль 2: Создание интерфейса (WPF) и вывод товаров</div></div>
+                <div class="time-item"><span>60 мин</span> <div>Модуль 3: Программирование кнопок (Добавить/Удалить)</div></div>
+                <div class="time-item"><span>30 мин</span> <div>Модуль 4: Скрытие кнопок для Менеджеров (Роли)</div></div>
+                <div class="time-item"><span>30 мин</span> <div>Финальная проверка</div></div>
             </div>
         </section>
 
         <!-- ТЕОРИЯ -->
         <section id="theory" class="page">
             <h1>Что мы вообще делаем?</h1>
-            <p>Разработка приложения — это как постройка дома. Есть 4 главных кирпичика:</p>
+            <p>Прежде чем писать код, давай поймем, как устроено приложение. Это как ресторан:</p>
             
             <div class="card">
-                <h3>1. База данных (SQLite) — это склад</h3>
-                <p>Представь склад с коробками. В коробках лежат данные: названия товаров, цены, имена клиентов. Мы не можем просто так залезть в коробку, нам нужен кладовщик.</p>
+                <h3>1. База данных (SQLite) — это Кладовая</h3>
+                <p>Там лежат продукты (товары). У каждой коробки есть название, цена и количество. База данных хранится в файле <code>database.db</code>.</p>
             </div>
 
             <div class="card">
-                <h3>2. Язык C# — это мозг</h3>
-                <p>Он говорит кладовщику: <i>«Эй, принеси мне все товары!»</i>. Но C# не умеет напрямую разговаривать с базой данных.</p>
+                <h3>2. Entity Framework (EF) — это Официант</h3>
+                <p>Ты (программист) не ходишь в кладовую сам. Ты говоришь официанту (EF): «Принеси все товары». Официант берет список (модели C#) и приносит данные.</p>
             </div>
 
             <div class="card">
-                <h3>3. Entity Framework (EF) — это переводчик</h3>
-                <p>Он стоит между C# и Базой Данных. Ты пишешь команду на C#, а EF переводит её на язык SQL, понятный базе.</p>
+                <h3>3. XAML — это Витрина</h3>
+                <p>Это то, как выглядит приложение. Кнопки, картинки, список. XAML — это язык разметки (как HTML), где мы рисуем интерфейс.</p>
             </div>
 
             <div class="card">
-                <h3>4. WPF и XAML — это витрина</h3>
-                <p>То, что видит пользователь (окошки, кнопки). XAML — это разметка (как HTML), а C# — это логика.</p>
+                <h3>4. C# — это Мозг</h3>
+                <p>Этот код оживляет кнопки. Когда ты нажимаешь «Добавить», C# говорит базе: «Запиши новый товар».</p>
             </div>
         </section>
 
         <!-- МОДУЛЬ 1 -->
         <section id="module1" class="page">
             <h1>Модуль 1: База данных</h1>
-            <p><em>Задача: Превратить Excel-файлы в базу данных SQLite.</em></p>
+            <p><em>Задача: Превратить Excel-таблицы в рабочую базу данных.</em></p>
             
             <div class="alert alert-warning">
-                ⚠️ <strong>Почему нельзя просто открыть .xlsx?</strong> Программа DB Browser понимает только текстовые форматы. Поэтому Excel нужно пересохранить.
+                ⚠️ <strong>Внимание!</strong> Программа DB Browser не понимает формат Excel (.xlsx). Нам нужно превратить их в текст (.csv).
             </div>
 
-            <h2>Шаг 1: Готовим файлы</h2>
-            <p>Открой каждый файл Excel. Нажми <strong>Файл -> Сохранить как</strong>. В типе файла выбери <strong>CSV UTF-8 (разделитель — запятая)</strong>. <em>Почему UTF-8? Чтобы русские буквы не превратились в иероглифы.</em></p>
+            <h2>Шаг 1: Конвертация</h2>
+            <p>1. Открой файл <code>Products.xlsx</code> в Excel.</p>
+            <p>2. Нажми <strong>Файл -> Сохранить как</strong>.</p>
+            <p>3. В поле «Тип файла» выбери <strong>CSV UTF-8 (разделитель — запятая)</strong>. <em>Почему UTF-8? Чтобы русские буквы не превратились в иероглифы.</em></p>
+            <p>4. Сохрани. Повтори для всех таблиц (Users, Orders и т.д.).</p>
 
-            <h2>Шаг 2: Импортируем</h2>
-            <ol>
-                <li>Открой DB Browser. Нажми "New Database" и сохрани как <code>database.db</code>.</li>
-                <li>Меню <strong>Файл -> Импорт -> Таблица из CSV</strong>. Выбери свой файл.</li>
-                <li>Кодировка — <strong>UTF-8</strong>. Галочка "Первая строка содержит имена" — <strong>ОБЯЗАТЕЛЬНО</strong>.</li>
-                <li><strong>ВНИМАНИЕ:</strong> Внизу окна посмотри на типы. Если Цена (Price) стала TEXT, поменяй на <strong>REAL</strong>. ID и Количество — на <strong>INTEGER</strong>. <em>Почему? Потому что с текстом нельзя делать математику (считать скидки).</em></li>
-                <li>Нажми ОК. База создана!</li>
-            </ol>
-            <p>В конце нажми кнопку <strong>"Записать изменения" (Write Changes)</strong> в верхней панели.</p>
+            <h2>Шаг 2: Импорт</h2>
+            <p>1. Открой DB Browser. Нажми <strong>New Database</strong> и сохрани как <code>database.db</code>.</p>
+            <p>2. Меню <strong>Файл -> Импорт -> Таблица из CSV-файла</strong>.</p>
+            <p>3. Выбери файл <code>Products.csv</code>. Имя таблицы: <code>products</code>.</p>
+            
+            <div class="explanation">
+                <strong>САМОЕ ГЛАВНОЕ:</strong> Внизу окна импорта посмотри на колонку «Тип». По умолчанию везде стоит TEXT (текст). 
+                <br><br>
+                Найди колонку <code>Price</code> (Цена) и поменяй тип на <strong>REAL</strong> (дробное число). Найди <code>Quantity</code> (Количество) и <strong>ID</strong> — поменяй на <strong>INTEGER</strong> (целое число). Если этого не сделать, программа не сможет считать скидки и выведет ошибку.
+            </div>
+            
+            <p>4. Нажми ОК. Таблица создастся и заполнится.</p>
+            <p>5. В конце нажми кнопку <strong>«Записать изменения» (Write Changes)</strong> в верхней панели.</p>
         </section>
 
         <!-- МОДУЛЬ 2 -->
         <section id="module2" class="page">
-            <h1>Модуль 2: Создание WPF</h1>
+            <h1>Модуль 2: Создание WPF (Интерфейс)</h1>
+            <p><em>Задача: Нарисовать окно программы и вывести список товаров.</em></p>
             
             <h2>Шаг 1: Создание проекта</h2>
-            <p>В Visual Studio создай <strong>Приложение WPF (.NET)</strong>. Назови <code>ChudoObuv</code>.</p>
-            <div class="explanation">
-                <strong>Что такое NuGet?</strong> Это магазин библиотек. Мы скачаем два пакета: Sqlite (чтобы понимать базу) и Proxies (чтобы автоматически подгружать категории).
-            </div>
+            <p>1. Открой Visual Studio -> Создать проект.</p>
+            <p>2. Найди в поиске <strong>Приложение WPF (.NET)</strong>. <em>(Не бери .NET Framework, он устарел).</em></p>
+            <p>3. Назови проект, например, <code>ChudoObuv</code>.</p>
 
-            <h2>Шаг 2: Перетаскиваем файлы</h2>
-            <p>Перетащи <code>database.db</code> и папку <code>Images</code> в проект.</p>
+            <h2>Шаг 2: Установка пакетов</h2>
+            <p>Чтобы C# понимал базу данных, нужно скачать библиотеки.</p>
+            <p>1. Нажми ПКМ по проекту в Обозревателе решений -> <strong>Управление пакетами NuGet</strong>.</p>
+            <p>2. Установи два пакета: <code>Microsoft.EntityFrameworkCore.Sqlite</code> и <code>Microsoft.EntityFrameworkCore.Proxies</code>.</p>
+
+            <h2>Шаг 3: Файлы в проект</h2>
+            <p>Перетащи файл <code>database.db</code> и папку <code>Images</code> в проект (в Обозреватель решений).</p>
             <div class="alert alert-warning">
-                ⚠️ В свойствах базы поставь "Копировать всегда", а в свойствах картинок — "Ресурс". <em>Если этого не сделать, программа при запуске не найдет файлы и вылетит.</em>
+                ⚠️ <strong>Критически важно:</strong> Выдели <code>database.db</code>, внизу в Свойствах выбери <strong>«Копировать в выходной каталог: Копировать всегда»</strong>. 
+                Выдели все картинки в папке Images, в Свойствах выбери <strong>«Действие при сборке: Ресурс»</strong>.
             </div>
 
-            <h2>Шаг 3: Автогенерация кода (Магия)</h2>
-            <p>В меню <strong>Вид -> Другие окна -> Консоль диспетчера пакетов</strong>. Вставь:</p>
+            <h2>Шаг 4: Генерация моделей (Магия)</h2>
+            <p>Вместо того чтобы писать классы вручную, мы сгенерируем их за 5 секунд.</p>
+            <p>1. В меню: <strong>Вид -> Другие окна -> Консоль диспетчера пакетов</strong>.</p>
+            <p>2. Внизу вставь эту команду и нажми Enter:</p>
             <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-powershell">Scaffold-DbContext "Data Source=database.db" Microsoft.EntityFrameworkCore.Sqlite -OutputDir Models -Force</code></pre>
-            <p>Появится папка <code>Models</code> с готовыми классами. Это сэкономит тебе час времени!</p>
+            <p>Появится папка <code>Models</code> с готовыми классами ваших таблиц.</p>
 
-            <h2>Шаг 4: Код вывода (MainWindow.xaml.cs)</h2>
-            <p>Замени <code>ChudoObuv</code> на имя своего проекта:</p>
+            <h2>Шаг 5: Включаем загрузку связей</h2>
+            <p>В папке Models открой файл <code>Context.cs</code> (или файл с именем вашей БД). Найди строку <code>UseSqlite</code> и добавь под ней:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">optionsBuilder.UseLazyLoadingProxies();</code></pre>
+            <p>В моделях (например, <code>Product.cs</code>) перед навигационными свойствами (Category, Manufacturer) добавь слово <code>virtual</code>. Пример: <code>public virtual Category Category { get; set; }</code></p>
+
+            <h2>Шаг 6: Верстка (XAML)</h2>
+            <p>Открой <code>MainWindow.xaml</code>. Удали всё внутри <code>&lt;Grid&gt;</code> и вставь этот код. Это наша витрина:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-xml">&lt;ListView x:Name="ProductList" Margin="10"&gt;
+    &lt;ListView.ItemTemplate&gt;
+        &lt;DataTemplate&gt;
+            &lt;Grid Width="800" Height="150" Margin="5"&gt;
+                &lt;Rectangle Fill="LightGray" Stroke="Black"/&gt;
+                &lt;Image Source="{Binding ImgPath}" Width="100" Height="100" Margin="10,0,0,0" HorizontalAlignment="Left"/&gt;
+                &lt;StackPanel Margin="120,10,0,0"&gt;
+                    &lt;TextBlock Text="{Binding ProdName}" FontSize="16" FontWeight="Bold"/&gt;
+                    &lt;TextBlock Text="{Binding CatName}" FontSize="14" Margin="0,5"/&gt;
+                    &lt;TextBlock Text="{Binding Cost, StringFormat={}{0} руб.}" FontSize="18" FontWeight="Bold" Margin="0,10,0,0"/&gt;
+                    &lt;TextBlock Text="{Binding Qty, StringFormat=На складе: {0} шт.}" FontSize="12"/&gt;
+                &lt;/StackPanel&gt;
+            &lt;/Grid&gt;
+        &lt;/DataTemplate&gt;
+    &lt;/ListView.ItemTemplate&gt;
+&lt;/ListView&gt;</code></pre>
+            
+            <div class="explanation">
+                <strong>Как это читать?</strong> <code>{Binding ProdName}</code> означает: «Эй, C#! Найди переменную ProdName и покажи её здесь». ListView сам создаст такие карточки для каждого товара.
+            </div>
+
+            <h2>Шаг 7: Код логики (C#)</h2>
+            <p>Открой <code>MainWindow.xaml.cs</code>. Замени весь код на этот. <em>Не забудь поменять ChudoObuv на имя своего проекта!</em></p>
             <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">using System.Windows;
-using ChudoObuv.Models; 
+using ChudoObuv.Models; // ИМЯ ТВОЕГО ПРОЕКТА
 using System.Linq;
 
 namespace ChudoObuv
 {
     public partial class MainWindow : Window
     {
+        // db - это наш "официант", через него мы общаемся с базой
         private Context db = new Context(); 
 
         public MainWindow()
         {
             InitializeComponent();
-            LoadData(); 
+            LoadData(); // Запускаем загрузку при старте
         }
 
         private void LoadData()
         {
+            // Идем в базу, берем все товары и формируем из них список
             var products = db.Products.Select(p => new {
-                Name = p.ProductName,
-                Price = p.Price,
-                Cat = p.Category.Name, 
-                Img = string.IsNullOrEmpty(p.ImagePath) ? "/Images/picture.png" : "/Images/Products/" + p.ImagePath
+                ProdName = p.ProductName, // Название
+                CatName = p.Category.Name, // Категория (через связь)
+                Cost = p.Price, // Цена
+                Qty = p.StockItems.Sum(s => s.Quantity), // Считаем общий остаток
+                ImgPath = string.IsNullOrEmpty(p.ImagePath) 
+                            ? "/Images/picture.png" // Если нет картинки - заглушка
+                            : "/Images/Products/" + p.ImagePath // Иначе путь к файлу
             }).ToList();
 
-            ProductList.ItemsSource = products; 
+            ProductList.ItemsSource = products; // Отдаем данные на витрину (ListView)
         }
     }
 }</code></pre>
@@ -163,73 +211,106 @@ namespace ChudoObuv
 
         <!-- МОДУЛЬ 3 -->
         <section id="module3" class="page">
-            <h1>Модуль 3: Удаление и Добавление</h1>
+            <h1>Модуль 3: Кнопки (Добавление и Удаление)</h1>
+            <p><em>Задача: Научить программу удалять и добавлять товары в базу.</em></p>
             
-            <h2>Как удалить товар?</h2>
-            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">private void DeleteButton_Click(object sender, RoutedEventArgs e)
+            <h2>Шаг 1: Кнопки в XAML</h2>
+            <p>В <code>MainWindow.xaml</code> перед <code>&lt;ListView&gt;</code> добавь панель с кнопками:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-xml">&lt;StackPanel Orientation="Horizontal" Margin="10" VerticalAlignment="Top"&gt;
+    &lt;Button x:Name="AddBtn" Content="Добавить" Click="AddBtn_Click" Width="100" Margin="0,0,5,0"/&gt;
+    &lt;Button x:Name="DelBtn" Content="Удалить" Click="DelBtn_Click" Width="100"/&gt;
+&lt;/StackPanel&gt;</code></pre>
+
+            <h2>Шаг 2: Удаление (Код C#)</h2>
+            <p>В <code>MainWindow.xaml.cs</code> добавь метод:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">private void DelBtn_Click(object sender, RoutedEventArgs e)
 {
+    // 1. Узнаем, какой товар выделил пользователь
     dynamic selected = ProductList.SelectedItem;
     if (selected == null) {
-        MessageBox.Show("Выберите товар!");
+        MessageBox.Show("Сначала выберите товар!");
         return;
     }
 
-    var itemToDelete = db.Products.FirstOrDefault(p => p.Id == selected.Id);
-    if (itemToDelete != null)
+    // 2. Ищем этот товар в базе по ID
+    var productToDelete = db.Products.FirstOrDefault(p => p.Id == selected.Id);
+
+    // 3. Если нашли — удаляем и сохраняем
+    if (productToDelete != null)
     {
-        db.Products.Remove(itemToDelete);
-        db.SaveChanges(); // СОХРАНЯЕМ!
-        LoadData();       
+        db.Products.Remove(productToDelete);
+        db.SaveChanges(); // ВАЖНО! Сохраняем изменения в базе
+        LoadData();       // Обновляем список на экране
     }
 }</code></pre>
             <div class="explanation">
-                <strong>Зачем SaveChanges()?</strong> Если ты удалил объект из списка, но не вызвал этот метод, база данных не узнает об этом. Это как написать текст в Word и закрыть без сохранения.
+                <strong>Зачем SaveChanges()?</strong> Если ты удалишь товар из программы, но не вызовешь этот метод, база данных не узнает об этом и при перезапуске товар вернется.
             </div>
 
-            <h2>Как добавить товар?</h2>
-            <p>Создай окно <code>AddWindow</code> и добавь кнопку сохранения:</p>
-            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">private void SaveButton_Click(object sender, RoutedEventArgs e)
+            <h2>Шаг 3: Добавление (Новое окно)</h2>
+            <p>1. Нажми ПКМ по проекту -> Добавить -> Окно (WPF). Назови <code>AddWindow.xaml</code>.</p>
+            <p>2. Внутри <code>&lt;Grid&gt;</code> вставь:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-xml">&lt;StackPanel Margin="20"&gt;
+    &lt;TextBlock Text="Название:"/&gt;
+    &lt;TextBox x:Name="NameBox" Margin="0,0,0,10"/&gt;
+    &lt;TextBlock Text="Цена:"/&gt;
+    &lt;TextBox x:Name="PriceBox" Margin="0,0,0,20"/&gt;
+    &lt;Button Content="Сохранить" Click="SaveBtn_Click"/&gt;
+&lt;/StackPanel&gt;</code></pre>
+            <p>3. В <code>AddWindow.xaml.cs</code> пишем логику:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">private void SaveBtn_Click(object sender, RoutedEventArgs e)
 {
     using (var db = new Context()) 
     {
+        // Создаем новый товар и берем данные из текстовых полей
         var newProduct = new Product();
         newProduct.ProductName = NameBox.Text; 
-        newProduct.Price = decimal.Parse(PriceBox.Text); 
+        newProduct.Price = decimal.Parse(PriceBox.Text); // Переводим текст в число
 
         db.Products.Add(newProduct);
-        db.SaveChanges(); 
+        db.SaveChanges(); // Сохраняем
     }
-    this.Close(); 
+    this.Close(); // Закрываем окно
+}</code></pre>
+            <p>4. В главном окне, на кнопку "Добавить":</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">private void AddBtn_Click(object sender, RoutedEventArgs e)
+{
+    new AddWindow().ShowDialog(); // Показываем окно
+    LoadData(); // Обновляем список
 }</code></pre>
         </section>
 
         <!-- МОДУЛЬ 4 -->
         <section id="module4" class="page">
-            <h1>Модуль 4: Роли</h1>
-            <p>Задача: Скрыть кнопки, если зашел не Администратор, а Менеджер.</p>
+            <h1>Модуль 4: Роли (Скрытие кнопок)</h1>
+            <p><em>Задача: Скрыть кнопки удаления и добавления для Менеджера.</em></p>
             
             <div class="explanation">
-                <strong>Visible vs Collapsed:</strong> У кнопок есть свойство Видимости. Если поставить <code>Collapsed</code> — кнопка исчезнет и место освободится. Если <code>Hidden</code> — останется пустое белое пятно.
+                <strong>Visible vs Collapsed:</strong> У кнопок есть свойство Visibility (Видимость). 
+                Если поставить <code>Collapsed</code> — кнопка полностью исчезнет, а список сдвинется. 
+                Если поставить <code>Hidden</code> — кнопка исчезнет, но оставит пустое место.
             </div>
 
-            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">string role = "Менеджер"; // Проверка из БД
+            <p>В <code>MainWindow.xaml.cs</code>, в метод <code>LoadData()</code> в самом начале добавь этот код:</p>
+            <pre><button class="copy-btn" onclick="copyCode(this)">Копировать</button><code class="language-csharp">// Имитация проверки роли (в реальности брать из БД)
+string userRole = "Менеджер"; 
 
-if (role == "Менеджер")
+if (userRole == "Менеджер")
 {
-    AddButton.Visibility = Visibility.Collapsed;
-    DeleteButton.Visibility = Visibility.Collapsed;
+    AddBtn.Visibility = Visibility.Collapsed;
+    DelBtn.Visibility = Visibility.Collapsed;
 }
 else 
 {
-    AddButton.Visibility = Visibility.Visible;
-    DeleteButton.Visibility = Visibility.Visible;
+    AddBtn.Visibility = Visibility.Visible;
+    DelBtn.Visibility = Visibility.Visible;
 }</code></pre>
         </section>
 
         <!-- КОМПИЛЯТОР -->
         <section id="compiler" class="page">
             <h1>Тренажер C#</h1>
-            <p>Проверь свой код прямо в браузере.</p>
+            <p>Если ты не уверен в коде, можешь проверить его здесь.</p>
             <div class="compiler-box">
                 <iframe src="https://www.programiz.com/csharp-programming/online-compiler/" allow="clipboard-read; clipboard-write"></iframe>
             </div>
@@ -237,6 +318,7 @@ else
 
     </main>
 
+    <!-- ЧАТ -->
     <button class="chat-toggle" onclick="toggleChat()">💬</button>
     <div class="chat-window" id="chatWindow">
         <div class="chat-header">
@@ -244,7 +326,7 @@ else
             <button onclick="toggleChat()" class="close-chat">✖</button>
         </div>
         <div class="chat-messages" id="chatMessages">
-            <div class="msg bot">Привет! Я знаю более 80 ошибок, которые возникают на этом экзамене. Просто опиши свою проблему, и я подскажу решение. Например: "Ошибка Context", "Не грузятся картинки", "Syntax error", "База данных не сохраняется".</div>
+            <div class="msg bot">Привет! Я знаю более 100 ошибок, которые возникают на этом экзамене. Просто опиши свою проблему, и я подскажу решение. Например: "Ошибка Context", "Не грузятся картинки", "Syntax error", "База данных не сохраняется".</div>
         </div>
         <div class="chat-input-area">
             <input type="text" id="chatInput" placeholder="Опиши проблему..." onkeypress="handleEnter(event)">
