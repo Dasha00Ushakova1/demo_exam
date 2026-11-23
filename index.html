@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LMS: Подготовка к ДЭ 09.02.07</title>
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
-    <!-- Подсветка синтаксиса кода -->
+    <!-- Подсветка синтаксиса кода (Темная тема) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 </head>
@@ -14,27 +19,27 @@
     <!-- БОКОВОЕ МЕНЮ -->
     <nav class="sidebar">
         <div class="logo">
-            <h2>🎓 ДЭ Подготовка</h2>
-            <p>09.02.07 Программист</p>
+            <h2>ДЭ 09.02.07</h2>
+            <p>Design System</p>
         </div>
         
         <div class="nav-group">
             <div class="nav-title">Старт</div>
-            <button class="nav-btn active" onclick="showPage('intro', this)">📖 Инструкция к сайту</button>
-            <button class="nav-btn" onclick="showPage('theory', this)">🧠 База: Как это работает?</button>
+            <button class="nav-btn active" onclick="showPage('intro', this)">Инструкция</button>
+            <button class="nav-btn" onclick="showPage('theory', this)">Как это работает?</button>
         </div>
 
         <div class="nav-group">
-            <div class="nav-title">Модули экзамена</div>
-            <button class="nav-btn" onclick="showPage('module1', this)">1. База данных (SQL)</button>
-            <button class="nav-btn" onclick="showPage('module2', this)">2. Создание WPF (C#)</button>
-            <button class="nav-btn" onclick="showPage('module3', this)">3. Кнопки (CRUD)</button>
-            <button class="nav-btn" onclick="showPage('module4', this)">4. Роли (Админ/Менеджер)</button>
+            <div class="nav-title">Модули</div>
+            <button class="nav-btn" onclick="showPage('module1', this)">01. База данных</button>
+            <button class="nav-btn" onclick="showPage('module2', this)">02. WPF (C#)</button>
+            <button class="nav-btn" onclick="showPage('module3', this)">03. Кнопки (CRUD)</button>
+            <button class="nav-btn" onclick="showPage('module4', this)">04. Роли</button>
         </div>
 
         <div class="nav-group">
             <div class="nav-title">Инструменты</div>
-            <button class="nav-btn" onclick="showPage('compiler', this)">💻 Тренажер C#</button>
+            <button class="nav-btn" onclick="showPage('compiler', this)">Тренажер C#</button>
         </div>
     </nav>
 
@@ -43,12 +48,12 @@
         
         <!-- СТРАНИЦА 1: ВВЕДЕНИЕ -->
         <section id="intro" class="page active">
-            <h1>Добро пожаловать на экзамен!</h1>
+            <h1>Добро пожаловать на экзамен</h1>
             <div class="alert alert-info">
                 <strong>Привет, студент!</strong> Если ты читаешь это, значит, тебе предстоит сдать демоэкзамен. Этот сайт создан специально для новичков. Здесь нет сложных терминов без объяснений. Мы пройдем весь путь шаг за шагом.
             </div>
 
-            <h2>🗺️ Как пользоваться этим сайтом?</h2>
+            <h2>Как пользоваться этим сайтом?</h2>
             <ol>
                 <li><strong>Читай теорию слева.</strong> Я объясню, что такое база данных и зачем нужен код. Без этого ты не поймешь, что копируешь.</li>
                 <li><strong>Копируй код.</strong> В каждом модуле есть блоки с готовым кодом. Нажимай кнопку "Копировать" и вставляй в свою программу.</li>
@@ -56,13 +61,13 @@
                 <li><strong>Тренируйся.</strong> В разделе "Тренажер C#" ты можешь писать код прямо в браузере и видеть результат.</li>
             </ol>
 
-            <h2>⏱️ План действий на 4 часа:</h2>
+            <h2>Тайминг на 4 часа:</h2>
             <div class="timeline">
-                <div class="time-item"><span>40 мин</span> Модуль 1: База данных (импорт из Excel)</div>
-                <div class="time-item"><span>80 мин</span> Модуль 2: Создание приложения и вывод товаров</div>
-                <div class="time-item"><span>60 мин</span> Модуль 3: Добавление и удаление товаров</div>
-                <div class="time-item"><span>30 мин</span> Модуль 4: Скрытие кнопок (Роли)</div>
-                <div class="time-item"><span>30 мин</span> Проверка и сдача</div>
+                <div class="time-item"><span>40 мин</span> <div>Модуль 1: База данных (импорт из Excel)</div></div>
+                <div class="time-item"><span>80 мин</span> <div>Модуль 2: Создание приложения и вывод товаров</div></div>
+                <div class="time-item"><span>60 мин</span> <div>Модуль 3: Добавление и удаление товаров</div></div>
+                <div class="time-item"><span>30 мин</span> <div>Модуль 4: Скрытие кнопок (Роли)</div></div>
+                <div class="time-item"><span>30 мин</span> <div>Проверка и сдача</div></div>
             </div>
         </section>
 
@@ -242,7 +247,7 @@ else // Администратор
 
         <!-- СТРАНИЦА 7: КОМПИЛЯТОР -->
         <section id="compiler" class="page">
-            <h1>💻 Тренажер C#</h1>
+            <h1>Тренажер C#</h1>
             <p>Здесь ты можешь проверить логику своего кода, не открывая Visual Studio.</p>
             <div class="compiler-box">
                 <iframe src="https://www.programiz.com/csharp-programming/online-compiler/" allow="clipboard-read; clipboard-write"></iframe>
@@ -255,7 +260,7 @@ else // Администратор
     <button class="chat-toggle" onclick="toggleChat()">💬</button>
     <div class="chat-window" id="chatWindow">
         <div class="chat-header">
-            <span>🤖 Экзаменационный Бот</span>
+            <span> Экзаменационный Бот</span>
             <button onclick="toggleChat()" class="close-chat">✖</button>
         </div>
         <div class="chat-messages" id="chatMessages">
