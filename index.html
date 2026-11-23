@@ -319,7 +319,7 @@ else
             <div class="resource-grid">
                 <!-- Карточка 1 -->
                 <div class="card res-card">
-                    <div class="res-icon">📚</div>
+                    <div class="res-icon"></div>
                     <h3>Чарльз Петцольд<br><small>«Microsoft Windows Presentation Foundation. Базовый курс»</small></h3>
                     <p>Классика по WPF. Объясняет, как XAML и C# работают в паре. Учит понимать, как устроен фреймворк изнутри.</p>
                     <a href="https://metanit.com/sharp/wpf/" target="_blank" class="res-link">Читать похожий курс на Metanit →</a>
@@ -327,7 +327,7 @@ else
 
                 <!-- Карточка 2 -->
                 <div class="card res-card">
-                    <div class="res-icon">🎥</div>
+                    <div class="res-icon"></div>
                     <h3>ITVDN<br><small>«WPF Базовый» и «WPF Углубленный»</small></h3>
                     <p>Структурированные видеокурсы. В базовом разбирают интерфейсы, в углубленном — шаблоны (Control Templates) и привязку данных (DataBinding).</p>
                     <a href="https://itvdn.com/ru/video/wpf" target="_blank" class="res-link">Смотреть курс на ITVDN →</a>
@@ -335,7 +335,7 @@ else
 
                 <!-- Карточка 3 -->
                 <div class="card res-card">
-                    <div class="res-icon">🗄️</div>
+                    <div class="res-icon"></div>
                     <h3>Джон П. Смит<br><small>«Entity Framework Core в действии»</small></h3>
                     <p>Исчерпывающее руководство по EF Core. Научит связывать классы C# (модели) с таблицами базы данных.</p>
                     <a href="https://metanit.com/sharp/entityframeworkcore/" target="_blank" class="res-link">Руководство по EF Core на Metanit →</a>
@@ -351,7 +351,7 @@ else
             </div>
 
             <div class="alert alert-info" style="margin-top: 30px;">
-                <strong>💡 Совет по обучению:</strong> Начни с основ WPF, затем переходи к привязке данных (Binding). И только когда интерфейс станет понятен, берись за Entity Framework для работы с базой.
+                <strong> Совет по обучению:</strong> Начни с основ WPF, затем переходи к привязке данных (Binding). И только когда интерфейс станет понятен, берись за Entity Framework для работы с базой.
             </div>
         </section>
 
@@ -361,11 +361,11 @@ else
     <button class="chat-toggle" onclick="toggleChat()">💬</button>
     <div class="chat-window" id="chatWindow">
         <div class="chat-header">
-            <span>🤖 Экзаменационный Бот</span>
+            <span> Экзаменационный Бот</span>
             <button onclick="toggleChat()" class="close-chat">✖</button>
         </div>
         <div class="chat-messages" id="chatMessages">
-            <div class="msg bot">Привет! Я знаю более 100 ошибок, которые возникают на этом экзамене. Спроси про: "Ключи", "Скидка", "Цвет", "Картинки" или опиши ошибку.</div>
+            <div class="msg bot">Опиши ошибку, может помогу</div>
         </div>
         <div class="chat-input-area">
             <input type="text" id="chatInput" placeholder="Опиши проблему..." onkeypress="handleEnter(event)">
